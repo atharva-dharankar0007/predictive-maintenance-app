@@ -2,6 +2,12 @@
 
 A machine learning-powered Streamlit web application to predict failures in industrial machinery and classify the type of failure, enabling proactive maintenance and reducing downtime.
 
+## 🚀 Live Deployment
+Click below to launch the app in your browser:
+
+👉 [🔧 Predictive Maintenance App](https://atharva-dharankar0007-predictive-maintenance-app-app-rzip4v.streamlit.app/)
+
+
 ---
 
 ## 🚀 Features
