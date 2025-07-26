@@ -8,9 +8,9 @@ A machine learning-powered Streamlit web application to predict failures in indu
 
 - ✅ Predict whether a machine is likely to fail
 - ⚠️ Identify the **type of failure** (e.g., Tool Wear, Heat Dissipation)
-- 📊 View insightful visualizations and dashboards (Plotly + Seaborn)
-- 🎛️ Input data manually through text boxes or sliders
-- 🎨 Custom-styled UI using CSS and HTML headers/footers
+- 📊 View insightful visualizations and dashboards (Plotly)
+- 🎛️ Input data manually through text boxes 
+
 
 ---
 
