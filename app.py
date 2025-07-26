@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 
-# Set page configuration (must be first Streamlit command)
+# Set page configuration
 st.set_page_config(page_title="Predictive Maintenance App", layout="wide")
 
 # Apply base CSS styling for entire app
@@ -119,8 +119,19 @@ if st.checkbox("Show Sensor Data Charts"):
         st.plotly_chart(fig1, use_container_width=True)
 
         st.markdown("<h4 class='custom-subheader'>📌 Temperature vs Torque by Failure</h4>", unsafe_allow_html=True)
-        fig2 = px.scatter(sample_data, x="Air temperature [K]", y="Torque [Nm]", color="Failure Type", hover_data=["Rotational speed [rpm]"], opacity=0.6)
+        fig2 = px.scatter(sample_data, x="Air temperature [K]", y="Torque [Nm]",
+                          color="Failure Type", hover_data=["Rotational speed [rpm]"], opacity=0.6)
+        fig2.add_scatter(x=input_df["Air temperature [K]"],
+                         y=input_df["Torque [Nm]"],
+                         mode='markers',
+                         marker=dict(color='red', size=12),
+                         name='Your Input')
         st.plotly_chart(fig2, use_container_width=True)
+
+        st.markdown("<h4 class='custom-subheader'>📌 Input vs Average RPM</h4>", unsafe_allow_html=True)
+        avg_rpm = sample_data["Rotational speed [rpm]"].mean()
+        st.write(f"🔧 Your RPM: **{input_df['Rotational speed [rpm]'].values[0]}**")
+        st.write(f"📊 Average RPM: **{avg_rpm:.2f}**")
 
     except FileNotFoundError:
         st.warning("Sample CSV not found. Charts are not available.")
