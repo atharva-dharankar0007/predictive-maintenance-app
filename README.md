@@ -27,7 +27,7 @@ A machine learning-powered Streamlit web application to predict failures in indu
 
 Atharva Dharankar
 📍 Akola, Maharashtra, India
-📧 atharvadharankar0007@gmail.com
-🔗 LinkedIn:https://www.linkedin.com/in/atharva-dharankar/
-💻 GitHub
+📧 'atharvadharankar0007@gmail.com'
+🔗 LinkedIn:'https://www.linkedin.com/in/atharva-dharankar/'
+💻 GitHub:'https://github.com/atharva-dharankar0007'
 
