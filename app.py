@@ -9,36 +9,65 @@ import plotly.express as px
 # Set page configuration
 st.set_page_config(page_title="Predictive Maintenance App", layout="wide")
 
-# Apply base CSS styling for entire app
+# Netflix-like Dark Theme CSS
 st.markdown("""
     <style>
-    html, body, [class*="css"]  {
+    html, body, [class*="css"] {
         font-family: 'Segoe UI', sans-serif;
-        background-color: #F4F6F7;
+        background-color: #141414;
+        color: #E5E5E5;
     }
+
     .stButton>button {
+        background-color: #E50914;
         color: white;
-        background-color: #1ABC9C;
+        font-weight: bold;
         border-radius: 8px;
-        padding: 0.5em 1em;
+        padding: 0.6em 1.2em;
+        transition: background-color 0.3s ease;
+        border: none;
     }
+    .stButton>button:hover {
+        background-color: #B20710;
+    }
+
     .stDataFrame th {
-        background-color: #2C3E50 !important;
-        color: white;
+        background-color: #333333 !important;
+        color: #FFFFFF !important;
     }
-    .stMarkdown h1, h2, h3 {
-        color: #2C3E50;
+
+    .stMarkdown h1, h2, h3, h4 {
+        color: #E50914;
+        font-weight: bold;
     }
+
     .css-1aumxhk {
-        background-color: #ffffff;
+        background-color: #1f1f1f;
         border-radius: 10px;
         padding: 20px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
+
     .custom-subheader {
-        color: #1A5276;
+        color: #E50914;
         font-size: 22px;
         font-weight: bold;
+    }
+
+    .stSidebar {
+        background-color: #000000;
+    }
+
+    a {
+        color: #E50914;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+
+    hr {
+        border: 1px solid #333333;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -50,29 +79,29 @@ scaler = joblib.load("scaler.pkl")
 le_type = joblib.load("label_encoder_type.pkl")
 le_target = joblib.load("label_encoder_target.pkl")
 
-# HTML-style Header
+# Header
 st.markdown("""
-<div style='background-color:#2C3E50; padding: 20px; border-radius: 10px;'>
-  <h1 style='color: white;'>🔧 Easy Machine Failure Predictor</h1>
+<div style='background-color:#000000; padding: 20px; border-radius: 10px;'>
+  <h1 style='color: #E50914;'>🔧 Easy Machine Failure Predictor</h1>
   <p style='color: white;'>Welcome to the <b>Predictive Maintenance Dashboard</b> — powered by machine learning!</p>
 </div>
 <br/>
 <div>
-🎯 This tool helps you:
-<ul>
-<li>Predict if a machine will fail based on sensor data</li>
-<li>Know what kind of failure is likely</li>
-<li>See simple visual insights about the data</li>
-</ul>
-<hr/>
+ 🎯 This tool helps you:
+ <ul>
+ <li>Predict if a machine will fail based on sensor data</li>
+ <li>Know what kind of failure is likely</li>
+ <li>See visual insights about the data</li>
+ </ul>
+ <hr/>
 </div>
 """, unsafe_allow_html=True)
 
 # Sidebar input
 st.sidebar.markdown("<h3 class='custom-subheader'>🔢 Enter Sensor Readings</h3>", unsafe_allow_html=True)
+
 def user_input_features():
     type_input = st.sidebar.selectbox("Machine Type", le_type.classes_)
-
     air_temp = st.sidebar.number_input("Air Temperature [K]", min_value=290.0, max_value=315.0, value=300.0)
     proc_temp = st.sidebar.number_input("Process Temperature [K]", min_value=290.0, max_value=320.0, value=305.0)
     rpm = st.sidebar.number_input("Rotational Speed [rpm]", min_value=1000, max_value=3000, value=1500)
@@ -115,12 +144,12 @@ if st.checkbox("Show Sensor Data Charts"):
         st.markdown("<h4 class='custom-subheader'>📌 Failure Type Distribution </h4>", unsafe_allow_html=True)
         failure_counts = sample_data["Failure Type"].value_counts().reset_index()
         failure_counts.columns = ["Failure Type", "Count"]
-        fig1 = px.bar(failure_counts, x="Failure Type", y="Count", color="Failure Type", text="Count")
+        fig1 = px.bar(failure_counts, x="Failure Type", y="Count", color="Failure Type", text="Count", template="plotly_dark")
         st.plotly_chart(fig1, use_container_width=True)
 
         st.markdown("<h4 class='custom-subheader'>📌 Temperature vs Torque by Failure</h4>", unsafe_allow_html=True)
         fig2 = px.scatter(sample_data, x="Air temperature [K]", y="Torque [Nm]",
-                          color="Failure Type", hover_data=["Rotational speed [rpm]"], opacity=0.6)
+                          color="Failure Type", hover_data=["Rotational speed [rpm]"], opacity=0.6, template="plotly_dark")
         fig2.add_scatter(x=input_df["Air temperature [K]"],
                          y=input_df["Torque [Nm]"],
                          mode='markers',
@@ -136,7 +165,7 @@ if st.checkbox("Show Sensor Data Charts"):
     except FileNotFoundError:
         st.warning("Sample CSV not found. Charts are not available.")
 
-# HTML-style Footer
+# Footer
 st.markdown("""
 <br/>
 <hr/>
@@ -146,4 +175,5 @@ st.markdown("""
   <p>💻 <a href='https://github.com/atharva-dharankar0007' target='_blank'>GitHub</a> | 🔗 <a href='https://www.linkedin.com/in/atharva-dharankar/' target='_blank'>LinkedIn</a></p>
 </div>
 """, unsafe_allow_html=True)
+
 
